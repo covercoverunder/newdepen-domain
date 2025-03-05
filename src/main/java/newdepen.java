@@ -3,4 +3,7 @@ public class newdepen {
 
     //THIS IS DUE IN 2 MINUTES OR YOU'RE FIRED
 
+    while(true) {
+        System.out.println("???");
+    }
 }
