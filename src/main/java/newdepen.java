@@ -3,5 +3,4 @@ public class newdepen {
     while(true) {
         System.out.println("???");
     }
-    }
 }
