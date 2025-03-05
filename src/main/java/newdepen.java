@@ -1,3 +1,3 @@
 public class newdepen {
-    System.out.println("hello");
+    System.out.println("hello"); //Do better
 }
