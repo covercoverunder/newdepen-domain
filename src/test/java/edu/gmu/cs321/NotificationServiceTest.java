@@ -10,7 +10,7 @@ import java.lang.StringBuilder;
  */
 public class NotificationServiceTest {
 
-    /* ------------------- Constructor related-test ------------------- */
+    /* ------------------- constructor related-test ------------------- */
 
     /**
      * Tests if email value is null when
@@ -61,7 +61,7 @@ public class NotificationServiceTest {
         assertEquals(email, ns.getEmail());
     }
 
-    /* ------------------- Methods related-test ------------------- */
+    /* ------------------- methods related-test ------------------- */
 
     /**
      * Tests if sendNotification() is successful

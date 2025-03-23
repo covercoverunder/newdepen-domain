@@ -57,7 +57,7 @@ public class FormProcessManager {
      * to petitioner.
      * @return If email is valid, it returns true. Otherwise, false.
      */
-    public boolean triggerNotifcation() {
+    public boolean triggerNotification() {
         return false;
     }
 
