@@ -22,7 +22,7 @@ public class NotificationService {
      * Assigns empty values.
      */
     public NotificationService() {
-        email = "";
+        email = null;
     }
     /*
      * One-param constructor.
@@ -30,6 +30,7 @@ public class NotificationService {
      * @param email email information of petitioner.
      */
     public NotificationService(String email) {
+        // assign predefined email
         this.email = email;
     }
      /**
@@ -39,7 +40,7 @@ public class NotificationService {
      * @return True, if application is approved. Otherwise false.
      */
     public boolean sendNotification() {
-        return true;
+        return false;
     }
      /**
      * String getEmail().
