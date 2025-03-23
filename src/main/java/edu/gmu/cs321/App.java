@@ -1,4 +1,4 @@
-//package edu.gmu.cs321;
+package edu.gmu.cs321;
 
 /**
  * Hello world!
