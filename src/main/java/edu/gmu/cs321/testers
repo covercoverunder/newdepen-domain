@@ -16,7 +16,7 @@ public class testers {
         Person testPerson = new Person("sneh", "shah", 1985);
         assertEquals("sneh", testPerson.getFirstName());
         assertEquals("shah", testPerson.getLastName());
-        assertEquals(1985, testPerson.getDOB());
+        assertEquals(2004, testPerson.getDOB());
     }
 }
 
@@ -47,8 +47,8 @@ public class RelativeTest {
 
     @Test
     public void testSetAndGetANumRel() {
-        Relative testRelative = new Relative(54321);
-        assertEquals(54321, testRelative.getANumRel());
+        Relative testRelative = new Relative(1234);
+        assertEquals(1234, testRelative.getANumRel());
     }
 }
 
@@ -64,8 +64,8 @@ public class FormTest {
 
     @Test
     public void testSetAndGetValues() {
-        Form testForm = new Form(1001, 20250322);
-        assertEquals(1001, testForm.getFormID());
-        assertEquals(20250322, testForm.getApplicationDate());
+        Form testForm = new Form(123412, 432141);
+        assertEquals(123412, testForm.getFormID());
+        assertEquals(432141, testForm.getApplicationDate());
     }
 }
