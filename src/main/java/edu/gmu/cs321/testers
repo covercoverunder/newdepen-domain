@@ -2,7 +2,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 //@author Sneh Shah
-public class testers {
+public class PersonTest{
 
     @Test
     public void testEmptyPerson() {
