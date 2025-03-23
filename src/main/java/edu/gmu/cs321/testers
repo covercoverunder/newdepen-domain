@@ -1,0 +1,71 @@
+import static org.junit.Assert.*;
+import org.junit.Test;
+
+public class testers {
+
+    @Test
+    public void testEmptyPerson() {
+        Person testPerson = new Person();
+        assertNull(testPerson.getFirstName());
+        assertNull(testPerson.getLastName());
+        assertEquals(0, testPerson.getDOB());
+    }
+
+    @Test
+    public void testSetAndGetValues() {
+        Person testPerson = new Person("sneh", "shah", 1985);
+        assertEquals("sneh", testPerson.getFirstName());
+        assertEquals("shah", testPerson.getLastName());
+        assertEquals(1985, testPerson.getDOB());
+    }
+}
+
+
+public class PetitionerTest {
+
+    @Test
+    public void testEmptyPetitioner() {
+        Petitioner testPetitioner = new Petitioner();
+        assertEquals(0, testPetitioner.getANum());
+    }
+
+    @Test
+    public void testSetAndGetANum() {
+        Petitioner testPetitioner = new Petitioner(12345);
+        assertEquals(12345, testPetitioner.getANum());
+    }
+}
+
+
+public class RelativeTest {
+
+    @Test
+    public void testEmptyRelative() {
+        Relative testRelative = new Relative();
+        assertEquals(0, testRelative.getANumRel());
+    }
+
+    @Test
+    public void testSetAndGetANumRel() {
+        Relative testRelative = new Relative(54321);
+        assertEquals(54321, testRelative.getANumRel());
+    }
+}
+
+
+public class FormTest {
+
+    @Test
+    public void testEmptyForm() {
+        Form testForm = new Form();
+        assertEquals(0, testForm.getFormID());
+        assertEquals(0, testForm.getApplicationDate());
+    }
+
+    @Test
+    public void testSetAndGetValues() {
+        Form testForm = new Form(1001, 20250322);
+        assertEquals(1001, testForm.getFormID());
+        assertEquals(20250322, testForm.getApplicationDate());
+    }
+}
