@@ -1,3 +1,5 @@
+package edu.gmu.cs321;
+
 public class Form {
     private int formID;
     private int applicationDate;
