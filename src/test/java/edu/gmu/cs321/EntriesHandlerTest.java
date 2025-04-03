@@ -12,7 +12,7 @@ public class EntriesHandlerTest {
     /* ------------------- methods related-test ------------------- */
 
     /**
-     * Tests if processForReview() returns true 
+     * Tests if processForReviewi() returns true 
      * when application has invalid or missing fields.
      */
     @Test
