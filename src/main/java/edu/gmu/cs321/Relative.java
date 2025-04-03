@@ -1,3 +1,4 @@
+package edu.gmu.cs321;
 
 public class Relative {
     private int aNumRel;

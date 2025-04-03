@@ -1,3 +1,5 @@
+package edu.gmu.cs321;
+
 
 public class Petitioner {
     private int aNum;

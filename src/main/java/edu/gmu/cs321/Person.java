@@ -1,3 +1,6 @@
+package edu.gmu.cs321;
+
+
 public class Person {
     private String firstName;
     private String lastName;
