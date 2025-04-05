@@ -8,6 +8,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.Arrays;
+
 public class DataEntryUI extends Application {
 
     private TextField firstName;
@@ -160,7 +162,8 @@ public class DataEntryUI extends Application {
         address.clear();
         city.clear();
         zip.clear();
-        state.getSelectionModel().selectFirst();
-        status.getSelectionModel().selectFirst();
+        for (ComboBox<String> stringComboBox : Arrays.asList(state, status)) {
+            stringComboBox.getSelectionModel().selectFirst();
+        }
     }
 }
