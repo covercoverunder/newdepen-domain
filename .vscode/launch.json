@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ReviewerUI",
+            "request": "launch",
+            "mainClass": "edu.gmu.cs321.ReviewerUI",
+            "projectName": "newdepen-domain"
+        },
+        {
+            "type": "java",
             "name": "ApprovalUI",
             "request": "launch",
             "mainClass": "edu.gmu.cs321.ApprovalUI",
