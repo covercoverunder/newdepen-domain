@@ -100,8 +100,8 @@ public class ApprovalUI extends Application {
         rejectButton.setDisable(true);
         // button to save rejection note
         Button saveButton = new Button("Save Changes");
-        // button to delete/discord rejection note
-        Button undoButton = new Button("Undo Changes");
+        // button to delete/discard rejection note
+        Button undoButton = new Button("Discard Changes");
         // area to type in rejection reason
         reasonArea = new TextArea();
         // prompt approver to enter reasoning here
