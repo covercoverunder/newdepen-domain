@@ -7,6 +7,10 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+/**
+ * UI/Screen for Approver.
+ * @author Michael Toyco
+ */
 public class ApprovalUI extends Application {
 
     /**
