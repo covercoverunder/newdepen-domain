@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "WorkflowTest",
+            "request": "launch",
+            "mainClass": "edu.gmu.cs321.WorkflowTest",
+            "projectName": "newdepen-domain"
+        },
+        {
+            "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "edu.gmu.cs321.App",
+            "projectName": "newdepen-domain"
+        },
+        {
+            "type": "java",
             "name": "ReviewerUI",
             "request": "launch",
             "mainClass": "edu.gmu.cs321.ReviewerUI",
@@ -28,7 +42,7 @@
             "type": "java",
             "name": "TestDatabase",
             "request": "launch",
-            "mainClass": "edu.gmu.cs321.ApprovalUI",
+            "mainClass": "edu.gmu.cs321.EmployerUI",
             "projectName": "newdepen-domain",
             "vmArgs": "--module-path \"JavaFX\" --add-modules javafx.controls,javafx.fxml"
         }
