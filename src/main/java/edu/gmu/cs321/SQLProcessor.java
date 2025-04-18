@@ -196,6 +196,32 @@ public class SQLProcessor {
         }
     }
 
+    // Retrieve the ID of the first form that matches the given status
+    public static int availableForm(String status) {
+        String selectQuery = "SELECT id FROM Form WHERE status = ? LIMIT 1";
+
+        try (Connection conn = getConnection();
+            PreparedStatement stmt = conn.prepareStatement(selectQuery)) {
+
+            stmt.setString(1, status);
+
+            ResultSet rs = stmt.executeQuery();
+            // if it matches
+            if (rs.next()) {
+                // return form if
+                return rs.getInt("id");
+            } else {
+                // otherwise, not found
+                return -1; // No matching form found
+            }
+
+        } catch (SQLException e) {
+            // if other issues occurs, return as not found
+            e.printStackTrace();
+            return -1; 
+        }
+    }
+
     // returns if petitioner id is duplicate
     public static boolean isDuplicate(int petANum) {
         return petTracker.containsValue(petANum);
