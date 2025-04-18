@@ -72,7 +72,7 @@ public class SQLProcessor {
 
     // Insert a form using Form object
     public static void createForm(Form form) {
-        String insertQuery = "INSERT INTO Form (date, address, city, state, zip, aNumPet, aNumRel) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO Form (date, address, city, state, zip, aNumPet, aNumRel, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
     
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(insertQuery)) {
@@ -84,6 +84,7 @@ public class SQLProcessor {
             stmt.setInt(5, form.getZipCode());
             stmt.setInt(6, form.getPetitionerANum());
             stmt.setInt(7, form.getRelativeANum());
+            stmt.setString(8, form.getStatus());
     
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {

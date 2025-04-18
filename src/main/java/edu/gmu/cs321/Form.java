@@ -60,13 +60,13 @@ public class Form {
         status = "New";
     }
 
-    public Form(int applicationDate, String address, String city, String state, int zipcode, String status) {
+    public Form(int applicationDate, String address, String city, String state, int zipcode) {
         this.applicationDate = applicationDate;
         this.address = address;
         this.city = city;
         this.state = state;
         this.zipcode = zipcode;
-        this.status = status;
+        status = "New";
     }
 
     //Non-static methods
