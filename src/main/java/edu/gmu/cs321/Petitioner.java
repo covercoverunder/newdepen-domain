@@ -16,4 +16,8 @@ public class Petitioner extends Person {
     public int getANum() {
         return aNum;
     }
+    
+    public void setANum(int aNum) {
+        this.aNum = aNum;
+    }
 }

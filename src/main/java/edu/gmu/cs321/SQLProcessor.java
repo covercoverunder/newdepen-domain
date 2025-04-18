@@ -1,11 +1,17 @@
 // modified version of "TestDatabase" from previous classes.
+// utitlized some aspect of "Workflow.jar" (decompiled Workflow.class)
 
 
 package edu.gmu.cs321;
 
 import java.sql.*;
+import java.util.HashMap;
 
 public class SQLProcessor {
+
+    // keep track of duplicate petitioners
+    static HashMap<Integer, Integer> petTracker = new HashMap<>();
+
     private static final String URL = "jdbc:mysql://localhost:3306/cs321";
     private static final String USER = "root";
     private static final String PASSWORD = "1234567890"; // replace with your MySQL password
@@ -38,6 +44,7 @@ public class SQLProcessor {
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Petitioner added successfully.");
+                petTracker.put(petitioner.getANum(), petitioner.getANum());
             } else {
                 System.out.println("Error adding petitioner.");
             }
@@ -96,6 +103,73 @@ public class SQLProcessor {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    // Retrieve a Form by its ID
+    public static Form retrieveForm(int formId) {
+        String selectQuery = "SELECT * FROM Form WHERE id = ?";
+
+        try (Connection conn = getConnection();
+            PreparedStatement stmt = conn.prepareStatement(selectQuery)) {
+
+            stmt.setInt(1, formId);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                // Create Form object manually
+                Form form = new Form();
+                form.setApplicationDate(rs.getInt("date"));
+                form.setAddress(rs.getString("address"));
+                form.setCity(rs.getString("city"));
+                form.setState(rs.getString("state"));
+                form.setZipCode(rs.getInt("zip"));
+                form.setPetitionerANum(rs.getInt("aNumPet"));
+                form.setRelativeANum(rs.getInt("aNumRel"));
+                form.setStatus(rs.getString("status"));
+                return form;
+            } else {
+                System.out.println("Form with ID " + formId + " not found.");
+                return null;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // Retrieve a petitioner using Alien Number
+    public static Petitioner retrievePetitioner(int relANum) {
+        String selectQuery = "SELECT * FROM Petitioner WHERE id = ?";
+        // Attempt to connect to MySQL Server
+        try (Connection conn = getConnection();
+            PreparedStatement stmt = conn.prepareStatement(selectQuery)) {
+
+            stmt.setInt(1, relANum);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                // Create Petitioner object manually
+                Petitioner pet = new Petitioner();
+                pet.setANum(rs.getInt("aNum"));
+                pet.setFirstName(rs.getString("first"));
+                pet.setLastName(rs.getString("last"));
+                pet.setDOB(rs.getInt("dob"));
+                return pet;
+            } else {
+                System.out.println("Pet with Alien Num " + relANum + " not found.");
+                return null;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // returns if petitioner id is duplicate
+    public static boolean isDuplicate(int petANum) {
+        return petTracker.containsValue(petANum);
     }
 
     /* 

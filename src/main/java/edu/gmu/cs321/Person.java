@@ -29,4 +29,16 @@ public class Person {
     public int getDOB() {
         return dob;
     }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setDOB(int dob) {
+        this.dob = dob;
+    }
 }
