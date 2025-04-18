@@ -67,13 +67,14 @@ public class ScreenSubmission extends Application {
                 Integer.parseInt(relANumField.getText())
             );
 
-            Form form = new Form(
-                Integer.parseInt(appDateField.getText()),
-                addressField.getText(),
-                cityField.getText(),
-                stateField.getText(),
-                Integer.parseInt(zipcodeField.getText())
-            );
+            Form form = new Form();
+            form.setApplicationDate(Integer.parseInt(appDateField.getText()));
+            form.setAddress(addressField.getText());
+            form.setCity(cityField.getText());
+            form.setState(stateField.getText());
+            form.setZipCode(Integer.parseInt(zipcodeField.getText()));
+            form.setPetitionerANum(Integer.parseInt(petANumField.getText()));
+            form.setRelativeANum(Integer.parseInt(relANumField.getText()));
 
             // Call your methods
             InitialSubmission.createPetitioner(pet);
@@ -99,4 +100,3 @@ public class ScreenSubmission extends Application {
         launch(args);
     }
 }
-

@@ -69,23 +69,26 @@ public class InitialSubmission {
 
     // Insert a form using Form object
     public static void createForm(Form form) {
-        String insertQuery = "INSERT INTO Form (date, address, city, state, zip) VALUES (?, ?, ?, ?, ?)";
-
+        String insertQuery = "INSERT INTO Form (date, address, city, state, zip, aNumPet, aNumRel) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(insertQuery)) {
-
+    
             stmt.setInt(1, form.getApplicationDate());
             stmt.setString(2, form.getAddress());
             stmt.setString(3, form.getCity());
             stmt.setString(4, form.getState());
             stmt.setInt(5, form.getZipCode());
+            stmt.setInt(6, form.getPetitionerANum());
+            stmt.setInt(7, form.getRelativeANum());
+    
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Form added successfully.");
             } else {
                 System.out.println("Error adding form.");
             }
-
+    
         } catch (SQLException e) {
             e.printStackTrace();
         }
