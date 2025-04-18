@@ -139,13 +139,13 @@ public class SQLProcessor {
     }
 
     // Retrieve a petitioner using Alien Number
-    public static Petitioner retrievePetitioner(int relANum) {
+    public static Petitioner retrievePetitioner(int aNum) {
         String selectQuery = "SELECT * FROM Petitioner WHERE id = ?";
         // Attempt to connect to MySQL Server
         try (Connection conn = getConnection();
             PreparedStatement stmt = conn.prepareStatement(selectQuery)) {
 
-            stmt.setInt(1, relANum);
+            stmt.setInt(1, aNum);
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -157,7 +157,36 @@ public class SQLProcessor {
                 pet.setDOB(rs.getInt("dob"));
                 return pet;
             } else {
-                System.out.println("Pet with Alien Num " + relANum + " not found.");
+                System.out.println("Pet with Alien Num " + aNum + " not found.");
+                return null;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // Retrieve a Relative using Alien Number
+    public static Relative retrieveRelative(int aNum) {
+        String selectQuery = "SELECT * FROM Relative WHERE id = ?";
+        // Attempt to connect to MySQL Server
+        try (Connection conn = getConnection();
+            PreparedStatement stmt = conn.prepareStatement(selectQuery)) {
+
+            stmt.setInt(1, aNum);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                // Create Relative object manually
+                Relative rel = new Relative();
+                rel.setANumRel(rs.getInt("aNumRel"));
+                rel.setFirstName(rs.getString("first"));
+                rel.setLastName(rs.getString("last"));
+                rel.setDOB(rs.getInt("dob"));
+                return rel;
+            } else {
+                System.out.println("Pet with Alien Num " + aNum + " not found.");
                 return null;
             }
 

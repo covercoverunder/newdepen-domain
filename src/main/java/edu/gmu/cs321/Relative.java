@@ -15,4 +15,8 @@ public class Relative extends Person {
     public int getANumRel() {
         return aNumRel;
     }
+
+    public void setANumRel(int aNumRel) {
+        this.aNumRel = aNumRel;
+    }
 }
