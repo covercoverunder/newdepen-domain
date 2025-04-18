@@ -19,6 +19,10 @@ public class EmployerUI extends Application {
          Button reviewer = new Button("Reviewer");
          /* button for approver */
          Button approver = new Button("Approver");
+         /* label for customer section  */
+         Label header2 = new Label ("[Demo Customer/Petitioner Submission]");
+         /* button for customer ui */
+         Button customer = new Button("Customer Form");        
          /* button config for data entry */
          dataEntry.setOnAction(e -> {
             DataEntryUI deUI = new DataEntryUI();
@@ -46,8 +50,17 @@ public class EmployerUI extends Application {
                 ex.printStackTrace();
             }
         });
+        /* button config for customer */
+        customer.setOnAction(e -> {
+            ScreenSubmission cUI = new ScreenSubmission();
+            try {
+                cUI.start(new Stage());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
         /* declare region and insert buttons */
-        VBox region = new VBox(10, header, dataEntry, reviewer, approver);
+        VBox region = new VBox(10, header, dataEntry, reviewer, approver, header2, customer);
         region.setAlignment(Pos.CENTER);
         /* wrap vbox to align in the middle */
         //StackPane root = new StackPane(region);

@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "FXTest",
+            "request": "launch",
+            "mainClass": "edu.gmu.cs321.FXTest",
+            "projectName": "newdepen-domain"
+        },
+        {
+            "type": "java",
             "name": "WorkflowTest",
             "request": "launch",
             "mainClass": "edu.gmu.cs321.WorkflowTest",
