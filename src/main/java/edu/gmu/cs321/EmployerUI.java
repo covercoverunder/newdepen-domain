@@ -65,7 +65,7 @@ public class EmployerUI extends Application {
         /* wrap vbox to align in the middle */
         //StackPane root = new StackPane(region);
         //StackPane.setAlignment(region, Pos.CENTER); // center the VBox
-        Scene scene = new Scene(region, 200, 400);
+        Scene scene = new Scene(region, 250, 500);
         stage.setTitle("USCIS Employee Portal");
         stage.setScene(scene);
         stage.show();
