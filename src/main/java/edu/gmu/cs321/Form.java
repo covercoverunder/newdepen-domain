@@ -43,6 +43,11 @@ public class Form {
      */
     private int relativeANum;
 
+    /**
+     * Status of form
+     */
+    private String status;
+
     public Form() {
         formID = 0;
         applicationDate = 0;
@@ -52,14 +57,16 @@ public class Form {
         zipcode = 0;
         relativeANum = 0;
         petitionerANum = 0;
+        status = "New";
     }
 
-    public Form(int applicationDate, String address, String city, String state, int zipcode) {
+    public Form(int applicationDate, String address, String city, String state, int zipcode, String status) {
         this.applicationDate = applicationDate;
         this.address = address;
         this.city = city;
         this.state = state;
         this.zipcode = zipcode;
+        this.status = status;
     }
 
     //Non-static methods
@@ -200,5 +207,20 @@ public class Form {
      */
     public int getRelativeANum() {
         return relativeANum;
+    }
+
+    /**
+     * Get status of Form
+     * @return Status info.
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * Set status of Form
+     */
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

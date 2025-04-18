@@ -1,8 +1,11 @@
+// modified version of "TestDatabase" from previous classes.
+
+
 package edu.gmu.cs321;
 
 import java.sql.*;
 
-public class InitialSubmission {
+public class SQLProcessor {
     private static final String URL = "jdbc:mysql://localhost:3306/cs321";
     private static final String USER = "root";
     private static final String PASSWORD = "1234567890"; // replace with your MySQL password

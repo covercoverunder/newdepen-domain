@@ -49,49 +49,61 @@ public class ApprovalUI extends Application {
     public void start(Stage primaryStage) {
         // window title for approval screen
         primaryStage.setTitle("USCIS Portal [Approver - LOGGED IN]");
-        // left panel region
-        VBox leftPanel = new VBox(10);
-        // spacing for left panel
-        leftPanel.setPadding(new Insets(10));
-        leftPanel.setPrefWidth(200);
-        // button for next form in queue
-        Button getFormBtn = new Button("Get Available Form");
-        // button to check queue/workflow status
-        Button checkStatusBtn = new Button("Check Queue Status");
-        // button to sign in / sign out
-        Button signOutBtn = new Button("Sign Out");
-        // custom colors
-        signOutBtn.setStyle("-fx-background-color: red; -fx-text-fill: white;");
-        // insert buttons into left panel
-        leftPanel.getChildren().addAll(getFormBtn, checkStatusBtn, signOutBtn);
-        // center region
-        VBox centerPanel = new VBox(10);
-        // spacing for center region
-        centerPanel.setPadding(new Insets(10));
-        // display form information
+        // display form information header
         Label formID = new Label("Form ID: ");
         Label fName = new Label("First Name: ");
         Label lName = new Label("Last Name: ");
         Label dob = new Label("Date of Birth: ");
-        Label country = new Label("Originating Country: ");
+        Label aNum = new Label("Alien Number: ");
+        Label address = new Label("Address:");
+        Label city = new Label("City:");
+        Label state = new Label("Staete:");
+        Label zipcode = new Label("Zipcode:");
         Label petitionFName = new Label("Petitioner First Name: ");
         Label petitionLName = new Label("Petitioner Last Name: ");
-        // prompt that Reviewer has marked the form as ready for approval.
-        Label note = new Label("Note:");
-        TextArea noteArea = new TextArea("[Reviewer] marked this form as 'ready for approval.'");
-        noteArea.setEditable(false);
-        noteArea.setWrapText(true);
-        // additional area for more info regarding document/petitioner/dependent.
-        formAdditionalNotes = new TextArea("Additional Notes: \n");
-        formAdditionalNotes.setEditable(false);
-        // history of document
-        validationHistoryLabel = new Label("Validation History:\n- Data Entry: Passed\n- Reviewer: Passed");
-        // insert to central region
-        centerPanel.getChildren().addAll(formID, fName, lName, dob, country, petitionFName, petitionLName, note, noteArea, formAdditionalNotes, validationHistoryLabel);
+        Label petitionDOB = new Label("Petitioner's Date of Birth");
+        Label petitionANum = new Label("Petitioner Alien Number:");
+        // vars to display form information
+        TextArea formID_text = new TextArea();
+        TextArea fName_text = new TextArea();
+        TextArea lName_text = new TextArea();
+        TextArea dob_text = new TextArea();
+        TextArea aNum_text = new TextArea();
+        TextArea address_text = new TextArea();
+        TextArea city_text = new TextArea();
+        TextArea state_text = new TextArea();
+        TextArea zipcode_text = new TextArea();
+        TextArea petitionFName_text = new TextArea();
+        TextArea petitionLName_text = new TextArea();
+        TextArea petitionDOB_text = new TextArea();
+        TextArea petitionANum_text = new TextArea();
+        // set properties to all form entries
+        TextArea[] textAreas = { formID_text, fName_text, lName_text, dob_text, aNum_text, 
+                                 address_text, city_text, state_text, zipcode_text,
+                                 petitionFName_text, petitionLName_text, petitionDOB_text, 
+                                 petitionANum_text };
+        for (TextArea ta : textAreas) {
+            ta.setPrefRowCount(1);
+            ta.setPrefColumnCount(20);
+            ta.setMinHeight(30);
+            ta.setMaxHeight(30);
+            ta.setEditable(false);
+        }
+        // left region
+        VBox leftPanel = new VBox(10);
+        // spacing for center region
+        leftPanel.setPadding(new Insets(10));
+        // button to retrieve available form for approval
+        Button getForm = new Button("Get Available Form");
+        leftPanel.getChildren().addAll(getForm, formID, formID_text, fName, fName_text, lName, 
+                                       lName_text, dob, dob_text, aNum, aNum_text, address, address_text, 
+                                       city, city_text, state, state_text, zipcode, zipcode_text);
         // right panel
         VBox rightPanel = new VBox(10);
         // spacing for right panel
         rightPanel.setPadding(new Insets(10));
+        // label to seperate control panel
+        Label controlP = new Label("*********************************** Approval Control Panel ***********************************");
         // button to approve document
         approveButton = new Button("Approve Form");
         // button to reject document
@@ -114,7 +126,7 @@ public class ApprovalUI extends Application {
         // if approve button is activated, prompt alert box
         approveButton.setOnAction(e -> {
             // confirm if approver wants to approve form (y/n alert box)
-            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Do you confirm approval of the following form?\n\n" + formAdditionalNotes.getText(), ButtonType.YES, ButtonType.NO);
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Do you confirm approval of the following form?\n\n", ButtonType.YES, ButtonType.NO);
             // header/title of messgae box
             confirm.setHeaderText("Confirm Approval");
             // prompt alert box if approver clicks yes
@@ -125,14 +137,16 @@ public class ApprovalUI extends Application {
             });
         });
         // add buttons and text box to right region
-        rightPanel.getChildren().addAll(approveButton, rejectButton, reasonArea, saveButton, undoButton);
+        rightPanel.getChildren().addAll(petitionFName, petitionFName_text, petitionLName, petitionLName_text, 
+                                        petitionDOB, petitionDOB_text, petitionANum, petitionANum_text, controlP, 
+                                        approveButton, rejectButton, reasonArea, saveButton, undoButton);
         // assign regions to root
         BorderPane layout = new BorderPane();
         layout.setLeft(leftPanel);
-        layout.setCenter(centerPanel);
+        // layout.setCenter(leftPanel);
         layout.setRight(rightPanel);
         // set dimensions
-        Scene scene = new Scene(layout, 1000, 600);
+        Scene scene = new Scene(layout, 1000, 800);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

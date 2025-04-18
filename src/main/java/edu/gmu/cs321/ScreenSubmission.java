@@ -77,9 +77,9 @@ public class ScreenSubmission extends Application {
             form.setRelativeANum(Integer.parseInt(relANumField.getText()));
 
             // Call your methods
-            InitialSubmission.createPetitioner(pet);
-            InitialSubmission.createRelative(rel);
-            InitialSubmission.createForm(form);
+            SQLProcessor.createPetitioner(pet);
+            SQLProcessor.createRelative(rel);
+            SQLProcessor.createForm(form);
         });
 
         // Add everything to layout
