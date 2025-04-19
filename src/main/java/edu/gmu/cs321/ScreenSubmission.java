@@ -76,6 +76,9 @@ public class ScreenSubmission extends Application {
             form.setPetitionerANum(Integer.parseInt(petANumField.getText()));
             form.setRelativeANum(Integer.parseInt(relANumField.getText()));
 
+            // debug approver
+            form.setStatus("approve");
+
             // Call your methods
             SQLProcessor.createPetitioner(pet);
             SQLProcessor.createRelative(rel);

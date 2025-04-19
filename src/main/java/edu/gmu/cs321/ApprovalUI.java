@@ -33,6 +33,35 @@ public class ApprovalUI extends Application {
      * Textbox for form information/summary.
      */
     private TextArea formAdditionalNotes;
+
+    // display form information header
+    Label formID = new Label("Form ID: ");
+    Label fName = new Label("First Name: ");
+    Label lName = new Label("Last Name: ");
+    Label dob = new Label("Date of Birth: ");
+    Label aNum = new Label("Alien Number: ");
+    Label address = new Label("Address:");
+    Label city = new Label("City:");
+    Label state = new Label("Staete:");
+    Label zipcode = new Label("Zipcode:");
+    Label petitionFName = new Label("Petitioner First Name: ");
+    Label petitionLName = new Label("Petitioner Last Name: ");
+    Label petitionDOB = new Label("Petitioner's Date of Birth");
+    Label petitionANum = new Label("Petitioner Alien Number:");
+    // vars to display form information
+    TextArea formID_text = new TextArea();
+    TextArea fName_text = new TextArea();
+    TextArea lName_text = new TextArea();
+    TextArea dob_text = new TextArea();
+    TextArea aNum_text = new TextArea();
+    TextArea address_text = new TextArea();
+    TextArea city_text = new TextArea();
+    TextArea state_text = new TextArea();
+    TextArea zipcode_text = new TextArea();
+    TextArea petitionFName_text = new TextArea();
+    TextArea petitionLName_text = new TextArea();
+    TextArea petitionDOB_text = new TextArea();
+    TextArea petitionANum_text = new TextArea();
     /**
      * Main function (start GUI)
      * @param args Strings passed to main.
@@ -49,34 +78,6 @@ public class ApprovalUI extends Application {
     public void start(Stage primaryStage) {
         // window title for approval screen
         primaryStage.setTitle("USCIS Portal [Approver - LOGGED IN]");
-        // display form information header
-        Label formID = new Label("Form ID: ");
-        Label fName = new Label("First Name: ");
-        Label lName = new Label("Last Name: ");
-        Label dob = new Label("Date of Birth: ");
-        Label aNum = new Label("Alien Number: ");
-        Label address = new Label("Address:");
-        Label city = new Label("City:");
-        Label state = new Label("Staete:");
-        Label zipcode = new Label("Zipcode:");
-        Label petitionFName = new Label("Petitioner First Name: ");
-        Label petitionLName = new Label("Petitioner Last Name: ");
-        Label petitionDOB = new Label("Petitioner's Date of Birth");
-        Label petitionANum = new Label("Petitioner Alien Number:");
-        // vars to display form information
-        TextArea formID_text = new TextArea();
-        TextArea fName_text = new TextArea();
-        TextArea lName_text = new TextArea();
-        TextArea dob_text = new TextArea();
-        TextArea aNum_text = new TextArea();
-        TextArea address_text = new TextArea();
-        TextArea city_text = new TextArea();
-        TextArea state_text = new TextArea();
-        TextArea zipcode_text = new TextArea();
-        TextArea petitionFName_text = new TextArea();
-        TextArea petitionLName_text = new TextArea();
-        TextArea petitionDOB_text = new TextArea();
-        TextArea petitionANum_text = new TextArea();
         // set properties to all form entries
         TextArea[] textAreas = { formID_text, fName_text, lName_text, dob_text, aNum_text, 
                                  address_text, city_text, state_text, zipcode_text,
@@ -95,6 +96,10 @@ public class ApprovalUI extends Application {
         leftPanel.setPadding(new Insets(10));
         // button to retrieve available form for approval
         Button getForm = new Button("Get Available Form");
+        getForm.setOnAction(e -> {
+            // attempt to assign values to attributes
+            findAvailableForm();
+        });
         leftPanel.getChildren().addAll(getForm, formID, formID_text, fName, fName_text, lName, 
                                        lName_text, dob, dob_text, aNum, aNum_text, address, address_text, 
                                        city, city_text, state, state_text, zipcode, zipcode_text);
@@ -165,5 +170,33 @@ public class ApprovalUI extends Application {
         // set body to alert box
         alertBox.setContentText(alert);
         alertBox.showAndWait();
+    }
+    private void findAvailableForm() {
+        // var to store form id
+        int formID = SQLProcessor.availableForm("approve");
+        // exit if not available
+        if(formID == -1) {
+            return;
+        }
+        // get form
+        Form form = SQLProcessor.retrieveForm(formID);
+        // get petitioner
+        Petitioner pet = SQLProcessor.retrievePetitioner(form.getPetitionerANum());
+        // get relative
+        Relative rel = SQLProcessor.retrieveRelative(form.getRelativeANum());
+        // set form attributes
+        formID_text.setText(String.valueOf(formID));
+        fName_text.setText(rel.getFirstName());
+        lName_text.setText(rel.getLastName());
+        dob_text.setText(String.valueOf(rel.getDOB()));
+        aNum_text.setText(String.valueOf(rel.getANumRel()));
+        address_text.setText(form.getAddress());
+        city_text.setText(form.getCity());
+        state_text.setText(form.getState());
+        zipcode_text.setText(String.valueOf(form.getZipCode()));
+        petitionFName_text.setText(String.valueOf(pet.getFirstName()));
+        petitionLName_text.setText(String.valueOf(pet.getLastName()));
+        petitionDOB_text.setText(String.valueOf(pet.getDOB()));
+        petitionANum_text.setText(String.valueOf(pet.getANum()));
     }
 } 

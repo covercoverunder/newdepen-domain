@@ -79,7 +79,7 @@ public class SQLProcessor {
 
     // Insert a form using Form object
     public static void createForm(Form form) {
-        String insertQuery = "INSERT INTO Form (date, address, city, state, zip, aNumPet, aNumRel, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO Form (date, address, city, state, zip, aNumPet, aNumRel, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(insertQuery)) {
@@ -140,7 +140,7 @@ public class SQLProcessor {
 
     // Retrieve a petitioner using Alien Number
     public static Petitioner retrievePetitioner(int aNum) {
-        String selectQuery = "SELECT * FROM Petitioner WHERE id = ?";
+        String selectQuery = "SELECT * FROM Petitioner WHERE aNum = ?";
         // Attempt to connect to MySQL Server
         try (Connection conn = getConnection();
             PreparedStatement stmt = conn.prepareStatement(selectQuery)) {
@@ -169,7 +169,7 @@ public class SQLProcessor {
 
     // Retrieve a Relative using Alien Number
     public static Relative retrieveRelative(int aNum) {
-        String selectQuery = "SELECT * FROM Relative WHERE id = ?";
+        String selectQuery = "SELECT * FROM Relative WHERE aNumRel = ?";
         // Attempt to connect to MySQL Server
         try (Connection conn = getConnection();
             PreparedStatement stmt = conn.prepareStatement(selectQuery)) {
