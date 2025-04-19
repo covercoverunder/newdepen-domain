@@ -107,6 +107,17 @@ public class ApprovalUI extends Application {
         VBox rightPanel = new VBox(10);
         // spacing for right panel
         rightPanel.setPadding(new Insets(10));
+        // button to check if current petitioner already exit
+        Button duplicate = new Button("Check if Duplicate");
+        // config if dup button is pressed
+        duplicate.setOnAction(e -> {
+            // prompt user if dup/no dup
+            if(SQLProcessor.isDuplicate(Integer.parseInt(petitionANum_text.getText()))) {
+                showAlert("Duplicate Found", "Petitioner A-Num exists more than once");
+            } else {
+                showAlert("Not Duplicate Found", "There's only one existing Petitioner");
+            }
+        });
         // label to seperate control panel
         Label controlP = new Label("*********************************** Approval Control Panel ***********************************");
         // button to approve document
@@ -143,8 +154,8 @@ public class ApprovalUI extends Application {
         });
         // add buttons and text box to right region
         rightPanel.getChildren().addAll(petitionFName, petitionFName_text, petitionLName, petitionLName_text, 
-                                        petitionDOB, petitionDOB_text, petitionANum, petitionANum_text, controlP, 
-                                        approveButton, rejectButton, reasonArea, saveButton, undoButton);
+                                        petitionDOB, petitionDOB_text, petitionANum, petitionANum_text, duplicate,
+                                        controlP, approveButton, rejectButton, reasonArea, saveButton, undoButton);
         // assign regions to root
         BorderPane layout = new BorderPane();
         layout.setLeft(leftPanel);

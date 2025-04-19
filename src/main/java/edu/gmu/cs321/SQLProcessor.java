@@ -222,6 +222,34 @@ public class SQLProcessor {
         }
     }
 
+    // edit already existing form and locating specific form via its ID
+    public static void modifyForm(int id, Form form) {
+        String updateQuery = "UPDATE Form SET (date, address, city, state, zip, aNumPet aNumRel, status) VALUES (? ? ? ? ? ? ? ?) WHERE id = ?";
+
+        try(Connection conn = getConnection();
+            PreparedStatement stmt = conn.prepareStatement(updateQuery)) { 
+
+                stmt.setInt(1, form.getApplicationDate());
+                stmt.setString(2, form.getAddress());
+                stmt.setString(3, form.getCity());
+                stmt.setString(4, form.getState());
+                stmt.setInt(5, form.getZipCode());
+                stmt.setInt(6, form.getPetitionerANum());
+                stmt.setInt(7, form.getRelativeANum());
+                stmt.setInt(7, id);
+
+                int rowsAffected = stmt.executeUpdate();
+                if (rowsAffected > 0) {
+                    System.out.println("Form edit success.");
+                } else {
+                    System.out.println("Error occurred with form.");
+                }
+        
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
     // returns if petitioner id is duplicate
     public static boolean isDuplicate(int petANum) {
         return petTracker.containsValue(petANum);
