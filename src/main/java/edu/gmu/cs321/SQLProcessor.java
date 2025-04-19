@@ -251,8 +251,30 @@ public class SQLProcessor {
         }
 
     // returns if petitioner id is duplicate
-    public static boolean isDuplicate(int petANum) {
-        return petTracker.containsValue(petANum);
+    public static boolean moreThanOnePetNum(int petANum) {
+        String existQuery = "SELECT aNum from Petitioner WHERE EXISTS (SELECT aNum FROM Petitioner WHERE aNum = ? < 1)";
+
+        try(Connection conn = getConnection();
+            PreparedStatement stmt = conn.prepareStatement(existQuery)) {
+
+            stmt.setInt(1, petANum);
+
+            // execute query/command
+            ResultSet rs = stmt.executeQuery();
+            // if greater than one
+            if (rs.next()) {
+                // true
+                return true;
+            // otherwise, return false
+            } else {
+                return false;
+            }
+            // return false if error occurred
+            } catch (SQLException e) {
+                // not found
+                e.printStackTrace();
+                return false;
+            }
     }
 
     /* 

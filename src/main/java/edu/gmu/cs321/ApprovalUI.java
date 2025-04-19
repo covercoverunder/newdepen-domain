@@ -112,7 +112,7 @@ public class ApprovalUI extends Application {
         // config if dup button is pressed
         duplicate.setOnAction(e -> {
             // prompt user if dup/no dup
-            if(SQLProcessor.isDuplicate(Integer.parseInt(petitionANum_text.getText()))) {
+            if(SQLProcessor.moreThanOnePetNum(Integer.parseInt(petitionANum_text.getText()))) {
                 showAlert("Duplicate Found", "Petitioner A-Num exists more than once");
             } else {
                 showAlert("Not Duplicate Found", "There's only one existing Petitioner");
