@@ -165,7 +165,7 @@ public class ApprovalUI extends Application {
                 // prompt alert box if approver clicks yes
                 confirm.showAndWait().ifPresent(response -> {
                     if (response == ButtonType.YES) {
-                        rejectForm();();
+                        rejectForm();
                         showAlert("Form Rejected", "The form has been rejected.");
                     }
                 });
@@ -210,7 +210,7 @@ public class ApprovalUI extends Application {
             return;
         }
         // get form
-        Form form = SQLProcessor.retrieveForm(formID);
+        form = SQLProcessor.retrieveForm(formID);
         // get petitioner
         Petitioner pet = SQLProcessor.retrievePetitioner(form.getPetitionerANum());
         // get relative
@@ -233,14 +233,14 @@ public class ApprovalUI extends Application {
 
     private void rejectForm() {
         // set status to reject
-        form.setState("rejected");
+        form.setStatus("rejected");
         // modify table to reflect changes
         SQLProcessor.modifyForm(formID, form);
     }
 
     private void approveForm() {
         // set status to submit
-        form.setState("approved");
+        form.setStatus("approved");
         // modify table to reflect changes
         SQLProcessor.modifyForm(formID, form);
     }

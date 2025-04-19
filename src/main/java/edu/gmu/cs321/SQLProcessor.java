@@ -224,7 +224,7 @@ public class SQLProcessor {
 
     // edit already existing form and locating specific form via its ID
     public static void modifyForm(int id, Form form) {
-        String updateQuery = "UPDATE Form SET (date, address, city, state, zip, aNumPet aNumRel, status) VALUES (? ? ? ? ? ? ? ?) WHERE id = ?";
+        String updateQuery = "UPDATE Form SET date = ?, address = ?, city = ?, state = ?, zip = ?, aNumPet = ?, aNumRel = ?, status = ? WHERE id = ?";
 
         try(Connection conn = getConnection();
             PreparedStatement stmt = conn.prepareStatement(updateQuery)) { 
@@ -236,7 +236,8 @@ public class SQLProcessor {
                 stmt.setInt(5, form.getZipCode());
                 stmt.setInt(6, form.getPetitionerANum());
                 stmt.setInt(7, form.getRelativeANum());
-                stmt.setInt(7, id);
+                stmt.setString(8, form.getStatus());
+                stmt.setInt(9, id);
 
                 int rowsAffected = stmt.executeUpdate();
                 if (rowsAffected > 0) {
