@@ -1,5 +1,6 @@
 package edu.gmu.cs321;
 
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -52,7 +53,7 @@ public class EmployerUI extends Application {
         });
         /* button config for customer */
         customer.setOnAction(e -> {
-            ScreenSubmission cUI = new ScreenSubmission();
+            CustomerSimulator cUI = new CustomerSimulator();
             try {
                 cUI.start(new Stage());
             } catch (Exception ex) {
