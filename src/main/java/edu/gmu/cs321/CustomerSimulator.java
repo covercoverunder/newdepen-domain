@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class ScreenSubmission extends Application {
+public class CustomerSimulator extends Application {
     
     @Override
     public void start(Stage primaryStage) {
