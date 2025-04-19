@@ -33,35 +33,28 @@ public class ApprovalUI extends Application {
      * Textbox for form information/summary.
      */
     private TextArea formAdditionalNotes;
-
-    // display form information header
-    Label formID = new Label("Form ID: ");
-    Label fName = new Label("First Name: ");
-    Label lName = new Label("Last Name: ");
-    Label dob = new Label("Date of Birth: ");
-    Label aNum = new Label("Alien Number: ");
-    Label address = new Label("Address:");
-    Label city = new Label("City:");
-    Label state = new Label("Staete:");
-    Label zipcode = new Label("Zipcode:");
-    Label petitionFName = new Label("Petitioner First Name: ");
-    Label petitionLName = new Label("Petitioner Last Name: ");
-    Label petitionDOB = new Label("Petitioner's Date of Birth");
-    Label petitionANum = new Label("Petitioner Alien Number:");
+    /**
+     * Form object
+     */
+    private Form form;
+    /**
+     * Holds form id for MySQL table
+     */
+    private int formID;
     // vars to display form information
-    TextArea formID_text = new TextArea();
-    TextArea fName_text = new TextArea();
-    TextArea lName_text = new TextArea();
-    TextArea dob_text = new TextArea();
-    TextArea aNum_text = new TextArea();
-    TextArea address_text = new TextArea();
-    TextArea city_text = new TextArea();
-    TextArea state_text = new TextArea();
-    TextArea zipcode_text = new TextArea();
-    TextArea petitionFName_text = new TextArea();
-    TextArea petitionLName_text = new TextArea();
-    TextArea petitionDOB_text = new TextArea();
-    TextArea petitionANum_text = new TextArea();
+    private TextArea formID_text = new TextArea();
+    private TextArea fName_text = new TextArea();
+    private TextArea lName_text = new TextArea();
+    private TextArea dob_text = new TextArea();
+    private TextArea aNum_text = new TextArea();
+    private TextArea address_text = new TextArea();
+    private TextArea city_text = new TextArea();
+    private TextArea state_text = new TextArea();
+    private TextArea zipcode_text = new TextArea();
+    private TextArea petitionFName_text = new TextArea();
+    private TextArea petitionLName_text = new TextArea();
+    private TextArea petitionDOB_text = new TextArea();
+    private TextArea petitionANum_text = new TextArea();
     /**
      * Main function (start GUI)
      * @param args Strings passed to main.
@@ -96,6 +89,21 @@ public class ApprovalUI extends Application {
         leftPanel.setPadding(new Insets(10));
         // button to retrieve available form for approval
         Button getForm = new Button("Get Available Form");
+        // display form information header
+        Label formID = new Label("Form ID: ");
+        Label fName = new Label("First Name: ");
+        Label lName = new Label("Last Name: ");
+        Label dob = new Label("Date of Birth: ");
+        Label aNum = new Label("Alien Number: ");
+        Label address = new Label("Address:");
+        Label city = new Label("City:");
+        Label state = new Label("Staete:");
+        Label zipcode = new Label("Zipcode:");
+        Label petitionFName = new Label("Petitioner First Name: ");
+        Label petitionLName = new Label("Petitioner Last Name: ");
+        Label petitionDOB = new Label("Petitioner's Date of Birth");
+        Label petitionANum = new Label("Petitioner Alien Number:");
+        // set get form button config
         getForm.setOnAction(e -> {
             // attempt to assign values to attributes
             findAvailableForm();
@@ -126,10 +134,6 @@ public class ApprovalUI extends Application {
         rejectButton = new Button("Reject Form");
         // disable rejection button by default
         rejectButton.setDisable(true);
-        // button to save rejection note
-        Button saveButton = new Button("Save Changes");
-        // button to delete/discard rejection note
-        Button undoButton = new Button("Discard Changes");
         // area to type in rejection reason
         reasonArea = new TextArea();
         // prompt approver to enter reasoning here
@@ -148,14 +152,28 @@ public class ApprovalUI extends Application {
             // prompt alert box if approver clicks yes
             confirm.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.YES) {
+                    approveForm();
                     showAlert("Form Approved", "The form has been approved.");
                 }
             });
         });
+        rejectButton.setOnAction(e -> {
+                // confirm if approver wants to approve form (y/n alert box)
+                Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Do you confirm rejection of the following form?\n\n", ButtonType.YES, ButtonType.NO);
+                // header/title of messgae box
+                confirm.setHeaderText("Confirm Rejection");
+                // prompt alert box if approver clicks yes
+                confirm.showAndWait().ifPresent(response -> {
+                    if (response == ButtonType.YES) {
+                        rejectForm();();
+                        showAlert("Form Rejected", "The form has been rejected.");
+                    }
+                });
+        });
         // add buttons and text box to right region
         rightPanel.getChildren().addAll(petitionFName, petitionFName_text, petitionLName, petitionLName_text, 
                                         petitionDOB, petitionDOB_text, petitionANum, petitionANum_text, duplicate,
-                                        controlP, approveButton, rejectButton, reasonArea, saveButton, undoButton);
+                                        controlP, approveButton, rejectButton, reasonArea);
         // assign regions to root
         BorderPane layout = new BorderPane();
         layout.setLeft(leftPanel);
@@ -166,6 +184,7 @@ public class ApprovalUI extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
     /**
      * void showAlert()
      * Prompts a alert box to user.
@@ -182,9 +201,10 @@ public class ApprovalUI extends Application {
         alertBox.setContentText(alert);
         alertBox.showAndWait();
     }
+
     private void findAvailableForm() {
         // var to store form id
-        int formID = SQLProcessor.availableForm("approve");
+        formID = SQLProcessor.availableForm("approve");
         // exit if not available
         if(formID == -1) {
             return;
@@ -209,5 +229,19 @@ public class ApprovalUI extends Application {
         petitionLName_text.setText(String.valueOf(pet.getLastName()));
         petitionDOB_text.setText(String.valueOf(pet.getDOB()));
         petitionANum_text.setText(String.valueOf(pet.getANum()));
+    }
+
+    private void rejectForm() {
+        // set status to reject
+        form.setState("rejected");
+        // modify table to reflect changes
+        SQLProcessor.modifyForm(formID, form);
+    }
+
+    private void approveForm() {
+        // set status to submit
+        form.setState("approved");
+        // modify table to reflect changes
+        SQLProcessor.modifyForm(formID, form);
     }
 } 
