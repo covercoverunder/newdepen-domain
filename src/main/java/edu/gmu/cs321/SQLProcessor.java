@@ -198,7 +198,12 @@ public class SQLProcessor {
         }
     }
 
-    // Retrieve the ID of the first form that matches the given status
+    // Returns the ID of the first form that matches the given status
+    // use string keys:
+    // "toReview" -> forms ready for reviewer
+    // "toApprove" -> forms ready for approver
+    // "rejected" -> forms rejected by approver
+    // "approved" -> formed approved by approver
     public static int availableForm(String status) {
         String selectQuery = "SELECT id FROM Form WHERE status = ? LIMIT 1";
 
