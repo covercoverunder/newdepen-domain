@@ -1,4 +1,4 @@
-package
+package edu.gmu.cs321;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
