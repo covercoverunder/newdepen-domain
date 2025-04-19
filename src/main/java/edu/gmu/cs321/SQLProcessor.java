@@ -252,7 +252,9 @@ public class SQLProcessor {
 
     // returns if petitioner id is duplicate
     public static boolean moreThanOnePetNum(int petANum) {
-        String existQuery = "SELECT aNum from Petitioner WHERE EXISTS (SELECT aNum FROM Petitioner WHERE aNum = ? < 1)";
+        String existQuery = "SELECT aNum FROM Petitioner WHERE aNum = ?";
+        // var to count num or iterations
+        int count = 0;
 
         try(Connection conn = getConnection();
             PreparedStatement stmt = conn.prepareStatement(existQuery)) {
@@ -261,8 +263,11 @@ public class SQLProcessor {
 
             // execute query/command
             ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                count++;
+            }
             // if greater than one
-            if (rs.next()) {
+            if (count > 1) {
                 // true
                 return true;
             // otherwise, return false

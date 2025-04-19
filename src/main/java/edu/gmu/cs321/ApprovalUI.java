@@ -113,9 +113,9 @@ public class ApprovalUI extends Application {
         duplicate.setOnAction(e -> {
             // prompt user if dup/no dup
             if(SQLProcessor.moreThanOnePetNum(Integer.parseInt(petitionANum_text.getText()))) {
-                showAlert("Duplicate Found", "Petitioner A-Num exists more than once");
+                showAlert("Duplicate Finder", "Same Relative A-Num(s) Found.");
             } else {
-                showAlert("Not Duplicate Found", "There's only one existing Petitioner");
+                showAlert("Duplicate Finder", "No Duplicates Found.");
             }
         });
         // label to seperate control panel
