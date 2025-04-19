@@ -79,7 +79,7 @@ public class SQLProcessor {
 
     // Insert a form using Form object
     public static void createForm(Form form) {
-        String insertQuery = "INSERT INTO Form (date, address, city, state, zip, aNumPet, aNumRel, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO Form (date, address, city, state, zip, aNumPet, aNumRel, status, rejectionNote) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(insertQuery)) {
@@ -92,6 +92,7 @@ public class SQLProcessor {
             stmt.setInt(6, form.getPetitionerANum());
             stmt.setInt(7, form.getRelativeANum());
             stmt.setString(8, form.getStatus());
+            stmt.setString(9, form.getRejectionReason());
     
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
@@ -126,6 +127,7 @@ public class SQLProcessor {
                 form.setPetitionerANum(rs.getInt("aNumPet"));
                 form.setRelativeANum(rs.getInt("aNumRel"));
                 form.setStatus(rs.getString("status"));
+                form.setRejectionReason(rs.getString("rejectionNote"));
                 return form;
             } else {
                 System.out.println("Form with ID " + formId + " not found.");
@@ -224,7 +226,7 @@ public class SQLProcessor {
 
     // edit already existing form and locating specific form via its ID
     public static void modifyForm(int id, Form form) {
-        String updateQuery = "UPDATE Form SET date = ?, address = ?, city = ?, state = ?, zip = ?, aNumPet = ?, aNumRel = ?, status = ? WHERE id = ?";
+        String updateQuery = "UPDATE Form SET date = ?, address = ?, city = ?, state = ?, zip = ?, aNumPet = ?, aNumRel = ?, status = ?, rejectionNote = ? WHERE id = ?";
 
         try(Connection conn = getConnection();
             PreparedStatement stmt = conn.prepareStatement(updateQuery)) { 
@@ -237,7 +239,8 @@ public class SQLProcessor {
                 stmt.setInt(6, form.getPetitionerANum());
                 stmt.setInt(7, form.getRelativeANum());
                 stmt.setString(8, form.getStatus());
-                stmt.setInt(9, id);
+                stmt.setString(9, form.getRejectionReason());
+                stmt.setInt(10, id);
 
                 int rowsAffected = stmt.executeUpdate();
                 if (rowsAffected > 0) {
@@ -280,6 +283,29 @@ public class SQLProcessor {
                 // not found
                 e.printStackTrace();
                 return false;
+            }
+    }
+
+    // return form's rejection message (if exists)
+    public static String formRejectionNote(int id) {
+        String selectQuery = "SELECT rejectionNote FROM Form WHERE id = ?";
+        try(Connection conn = getConnection();
+            PreparedStatement stmt = conn.prepareStatement(selectQuery)) { 
+            stmt.setInt(1, id);
+            // exec query
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()) {
+                // return rejection note
+                return rs.getString("rejectionNote");
+            } else {
+                // if not found, return null
+                System.out.println("ID " + id + "not found.");
+                return null;
+            }
+            // if other errors occurs, return null
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
             }
     }
 

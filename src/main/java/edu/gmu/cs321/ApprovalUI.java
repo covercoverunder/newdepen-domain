@@ -89,6 +89,7 @@ public class ApprovalUI extends Application {
         leftPanel.setPadding(new Insets(10));
         // button to retrieve available form for approval
         Button getForm = new Button("Get Available Form");
+        Button clearEntries = new Button("Clear Entries");
         // display form information header
         Label formID = new Label("Form ID: ");
         Label fName = new Label("First Name: ");
@@ -108,7 +109,11 @@ public class ApprovalUI extends Application {
             // attempt to assign values to attributes
             findAvailableForm();
         });
-        leftPanel.getChildren().addAll(getForm, formID, formID_text, fName, fName_text, lName, 
+        clearEntries.setOnAction(e -> {
+            // clear text fields
+            clearEntries();
+        });
+        leftPanel.getChildren().addAll(getForm, clearEntries, formID, formID_text, fName, fName_text, lName, 
                                        lName_text, dob, dob_text, aNum, aNum_text, address, address_text, 
                                        city, city_text, state, state_text, zipcode, zipcode_text);
         // right panel
@@ -232,7 +237,8 @@ public class ApprovalUI extends Application {
     }
 
     private void rejectForm() {
-        // set status to reject
+        // set status to reject and add reject reason
+        form.setRejectionReason(reasonArea.getText());
         form.setStatus("rejected");
         // modify table to reflect changes
         SQLProcessor.modifyForm(formID, form);
@@ -244,4 +250,14 @@ public class ApprovalUI extends Application {
         // modify table to reflect changes
         SQLProcessor.modifyForm(formID, form);
     }
+
+    private void clearEntries() {
+        TextArea[] textAreas = { formID_text, fName_text, lName_text, dob_text, aNum_text, 
+            address_text, city_text, state_text, zipcode_text,
+            petitionFName_text, petitionLName_text, petitionDOB_text, 
+            petitionANum_text };
+        for (TextArea ta : textAreas) {
+            ta.setText("");
+        }
+     }
 } 

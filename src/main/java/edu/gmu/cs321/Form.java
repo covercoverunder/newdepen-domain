@@ -48,6 +48,11 @@ public class Form {
      */
     private String status;
 
+    /**
+     * Var to hold rejection reason
+     */
+    private String rejectionReason;
+
     public Form() {
         formID = 0;
         applicationDate = 0;
@@ -58,6 +63,7 @@ public class Form {
         relativeANum = 0;
         petitionerANum = 0;
         status = "New";
+        rejectionReason = "";
     }
 
     public Form(int applicationDate, String address, String city, String state, int zipcode) {
@@ -67,6 +73,7 @@ public class Form {
         this.state = state;
         this.zipcode = zipcode;
         status = "New";
+        rejectionReason = "";
     }
 
     //Non-static methods
@@ -222,5 +229,19 @@ public class Form {
      */
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    /**
+     * Get rejection reason
+     */
+    public String getRejectionReason() {
+        return rejectionReason;
+    }
+
+    /**
+     * Set rejection reason
+     */
+    public void setRejectionReason(String rejectionReason) {
+        this.rejectionReason = rejectionReason;
     }
 }
