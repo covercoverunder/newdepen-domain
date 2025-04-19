@@ -1,0 +1,54 @@
+package edu.gmu.cs321;
+
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+public class LoginScreen extends Application {
+
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("USCIS Login");
+
+        Label instruction = new Label("Enter your role (dataentry, reviewer, approver):");
+        TextField usernameField = new TextField();
+        usernameField.setPromptText("Username");
+        Button loginButton = new Button("Login");
+        Label feedback = new Label();
+
+        loginButton.setOnAction(e -> {
+            String username = usernameField.getText().trim().toLowerCase();
+            switch (username) {
+                case "dataentry":
+                    new DataEntryUI().start(new Stage());
+                    primaryStage.close();
+                    break;
+                case "reviewer":
+                    new ReviewerUI().start(new Stage());
+                    primaryStage.close();
+                    break;
+                case "approver":
+                    new ApprovalUI().start(new Stage());
+                    primaryStage.close();
+                    break;
+                default:
+                    feedback.setText("Invalid username. Try: dataentry, reviewer, or approver.");
+            }
+        });
+
+        VBox layout = new VBox(10, instruction, usernameField, loginButton, feedback);
+        layout.setAlignment(Pos.CENTER);
+        layout.setPadding(new Insets(20));
+
+        primaryStage.setScene(new Scene(layout, 350, 200));
+        primaryStage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
