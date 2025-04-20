@@ -73,7 +73,7 @@ public class ReviewerUI extends Application{
 
         root = new Group();
         scene = new Scene(root,  900, 600);
-        stage = new Stage();
+        //stage = new Stage();
 
         //Seperator at top of screen
         Line topLine = new Line();
@@ -298,7 +298,8 @@ public class ReviewerUI extends Application{
         emptyFields.setX(400);
         emptyFields.setY(95);
         
-        stage.setScene(scene);
+        //stage.setScene(scene);
+        primaryStage.setScene(scene);
         
         //seperators
         root.getChildren().add(topLine);
@@ -350,7 +351,8 @@ public class ReviewerUI extends Application{
         //validation empty fields error
         //root.getChildren().add(emptyFields);
 
-        stage.show();
+        //stage.show();
+        primaryStage.show();
     }
     
     private Form form;
