@@ -26,14 +26,6 @@ public class ApprovalUI extends Application {
      */
     private Button approveButton;
     /**
-     * Area for process history of form/
-     */
-    private Label validationHistoryLabel;
-    /**
-     * Textbox for form information/summary.
-     */
-    private TextArea formAdditionalNotes;
-    /**
      * Form object
      */
     private Form form;
@@ -41,6 +33,12 @@ public class ApprovalUI extends Application {
      * Holds form id for MySQL table
      */
     private int formID;
+    /**
+     * Tracks if validation mode is on/off
+     */
+    private boolean isValidate = false;
+
+
     // vars to display form information
     private TextArea formID_text = new TextArea();
     private TextArea fName_text = new TextArea();
@@ -113,9 +111,25 @@ public class ApprovalUI extends Application {
             // clear text fields
             clearEntries();
         });
+        Button validateOn = new Button ("Enable Validation");
+        Button validateOff = new Button ("Disable Validation");
+        TextArea validMSG = new TextArea("Validation Mode:  ON  [OFF]");
+
+        validateOn.setOnAction(e -> {
+            //validateOn.setDisable(true);
+            enableEdit();
+            validMSG.setText("Validation Mode: [ON]  OFF");
+        });
+
+        validateOff.setOnAction(e -> {
+            //validateOff.setDisable(true);
+            disableEdit();
+            validMSG.setText("Validation Mode:  ON  [OFF]");
+        });
+
         leftPanel.getChildren().addAll(getForm, clearEntries, formID, formID_text, fName, fName_text, lName, 
                                        lName_text, dob, dob_text, aNum, aNum_text, address, address_text, 
-                                       city, city_text, state, state_text, zipcode, zipcode_text);
+                                       city, city_text, state, state_text, zipcode, zipcode_text, validateOn, validateOff, validMSG);
         // right panel
         VBox rightPanel = new VBox(10);
         // spacing for right panel
@@ -175,10 +189,15 @@ public class ApprovalUI extends Application {
                     }
                 });
         });
+        Button signOutButton = new Button("Sign Out");
+        signOutButton.setOnAction(e -> {
+            primaryStage.close();
+            new LoginScreen().start(new Stage());
+        });
         // add buttons and text box to right region
         rightPanel.getChildren().addAll(petitionFName, petitionFName_text, petitionLName, petitionLName_text, 
                                         petitionDOB, petitionDOB_text, petitionANum, petitionANum_text, duplicate,
-                                        controlP, approveButton, rejectButton, reasonArea);
+                                        controlP, approveButton, rejectButton, reasonArea, signOutButton);
         // assign regions to root
         BorderPane layout = new BorderPane();
         layout.setLeft(leftPanel);
@@ -209,7 +228,7 @@ public class ApprovalUI extends Application {
 
     private void findAvailableForm() {
         // var to store form id
-        formID = SQLProcessor.availableForm("approve");
+        formID = SQLProcessor.availableForm("toApprove");
         // exit if not available
         if(formID == -1) {
             return;
@@ -258,6 +277,25 @@ public class ApprovalUI extends Application {
             petitionANum_text };
         for (TextArea ta : textAreas) {
             ta.setText("");
+        }
+     }
+
+     private void enableEdit() {
+        TextArea[] textAreas = { formID_text, fName_text, lName_text, dob_text, aNum_text, 
+            address_text, city_text, state_text, zipcode_text,
+            petitionFName_text, petitionLName_text, petitionDOB_text, 
+            petitionANum_text };
+        for (TextArea ta : textAreas) {
+            ta.setEditable(true);
+        }
+     }
+     private void disableEdit() {
+        TextArea[] textAreas = { formID_text, fName_text, lName_text, dob_text, aNum_text, 
+            address_text, city_text, state_text, zipcode_text,
+            petitionFName_text, petitionLName_text, petitionDOB_text, 
+            petitionANum_text };
+        for (TextArea ta : textAreas) {
+            ta.setEditable(false);
         }
      }
 } 
