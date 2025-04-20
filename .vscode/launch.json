@@ -6,41 +6,6 @@
     "configurations": [
         {
             "type": "java",
-            "name": "FXTest",
-            "request": "launch",
-            "mainClass": "edu.gmu.cs321.FXTest",
-            "projectName": "newdepen-domain"
-        },
-        {
-            "type": "java",
-            "name": "WorkflowTest",
-            "request": "launch",
-            "mainClass": "edu.gmu.cs321.WorkflowTest",
-            "projectName": "newdepen-domain"
-        },
-        {
-            "type": "java",
-            "name": "App",
-            "request": "launch",
-            "mainClass": "edu.gmu.cs321.App",
-            "projectName": "newdepen-domain"
-        },
-        {
-            "type": "java",
-            "name": "ReviewerUI",
-            "request": "launch",
-            "mainClass": "edu.gmu.cs321.ReviewerUI",
-            "projectName": "newdepen-domain"
-        },
-        {
-            "type": "java",
-            "name": "ApprovalUI",
-            "request": "launch",
-            "mainClass": "edu.gmu.cs321.ApprovalUI",
-            "projectName": "newdepen-domain"
-        },
-        {
-            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
