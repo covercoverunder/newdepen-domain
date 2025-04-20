@@ -14,9 +14,9 @@ public class LoginScreen extends Application {
 
     private static final Map<String, String> credentials = new HashMap<>();
     static {
-        credentials.put("dataentry", "entry123");
-        credentials.put("reviewer", "review456");
-        credentials.put("approver", "approve789");
+        credentials.put("dataentry", "12345");
+        credentials.put("reviewer", "123456");
+        credentials.put("approver", "1234567");
     }
 
     @Override
