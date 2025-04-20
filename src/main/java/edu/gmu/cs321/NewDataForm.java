@@ -27,7 +27,7 @@ public class NewDataForm extends Application {
         grid.setPadding(new Insets(20));
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setStyle("-fx-background-color: #1e1e1e; -fx-text-fill: white;");
+        //grid.setStyle("-fx-background-color: #1e1e1e; -fx-text-fill: white;");
 
         petFNameField = new TextField();
         petLNameField = new TextField();
@@ -64,7 +64,10 @@ public class NewDataForm extends Application {
         submitButton.setOnAction(e -> handleSubmit());
         validatorButton.setOnAction(e -> validateFields());
         clearButton.setOnAction(e -> clearForm());
-        signOutButton.setOnAction(e -> primaryStage.close());
+        signOutButton.setOnAction(e -> {
+            primaryStage.close();
+            new LoginScreen().start(new Stage());
+        });
 
         int row = 0;
         grid.add(new Label("[Petitioner]"), 0, row++);
@@ -86,7 +89,7 @@ public class NewDataForm extends Application {
         grid.add(new Label("State:"), 0, row); grid.add(stateField, 1, row++);
         grid.add(new Label("Zipcode:"), 0, row); grid.add(zipcodeField, 1, row++);
 
-        HBox buttonRow = new HBox(10, validatorButton, clearButton);
+        HBox buttonRow = new HBox(10, clearButton);
         buttonRow.setAlignment(Pos.CENTER);
         grid.add(buttonRow, 0, row, 2, 1);
 
