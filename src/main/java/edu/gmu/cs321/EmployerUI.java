@@ -26,7 +26,7 @@ public class EmployerUI extends Application {
          Button customer = new Button("Customer Form");        
          /* button config for data entry */
          dataEntry.setOnAction(e -> {
-            DataEntryUI deUI = new DataEntryUI();
+            NewDataForm deUI = new NewDataForm();
             try {
                 deUI.start(new Stage());
             } catch (Exception ex) {
