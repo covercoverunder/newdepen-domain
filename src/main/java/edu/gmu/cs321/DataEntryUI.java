@@ -1,3 +1,5 @@
+package edu.gmu.cs321;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
