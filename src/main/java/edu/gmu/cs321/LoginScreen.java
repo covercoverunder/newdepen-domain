@@ -40,7 +40,9 @@ public class LoginScreen extends Application {
             if (credentials.containsKey(username) && credentials.get(username).equals(password)) {
                 switch (username) {
                     case "dataentry":
-                        new DataEntryUI().start(new Stage());
+                        // running temp version
+                        new NewDataForm().start(new Stage());
+                        //new DataEntryUI().start(new Stage());
                         break;
                     case "reviewer":
                         try {

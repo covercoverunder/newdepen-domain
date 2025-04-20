@@ -172,3 +172,33 @@ public class NewDataForm extends Application {
         statusLabel.setText("");
     }
 }
+
+
+
+
+/*
+ 
+
+// global vars
+Form form;
+int formID = SQLProcessor.availableForm("toReview");
+
+// retrieve shit that's already for reviewer
+// refer to findAvailableForm() in approverUI
+ if(formID != -1) {
+    form = SQLProcessor.retrieveForm(formID);
+    // assign to text fields
+ }
+
+
+// upload back to workflow (ready for approval)
+// refer approveForm() in approverUI
+form.setStatus("toApprove");
+modifyForm(formID, form);
+
+
+
+
+
+
+ */
