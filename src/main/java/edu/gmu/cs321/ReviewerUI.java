@@ -132,30 +132,35 @@ public class ReviewerUI extends Application{
 
         //may implement next sprint
         Button logoutButton = new Button("Logout");
-        ButtonBar.setButtonData(logoutButton, ButtonData.BACK_PREVIOUS);
+        //ButtonBar.setButtonData(logoutButton, ButtonData.BACK_PREVIOUS);
+
+        logoutButton.setOnAction(e -> {
+            primaryStage.close();
+            new LoginScreen().start(new Stage());
+        });
 
         Button getFormButton = new Button("Get Form");
-        ButtonBar.setButtonData(getFormButton, ButtonData.NEXT_FORWARD);
+        //ButtonBar.setButtonData(getFormButton, ButtonData.NEXT_FORWARD);
         getFormButton.setOnAction(e -> nextForm());
 
         Button rejectedButton = new Button("Get Rejected Form");
-        ButtonBar.setButtonData(rejectedButton, ButtonData.NEXT_FORWARD);
+        //ButtonBar.setButtonData(rejectedButton, ButtonData.NEXT_FORWARD);
         rejectedButton.setOnAction(e -> nextRejectedForm());
         
         //call the validate function and print success/failure message
         Button validateButton = new Button("Validate");
-        ButtonBar.setButtonData(validateButton, ButtonData.NEXT_FORWARD);
+        //ButtonBar.setButtonData(validateButton, ButtonData.NEXT_FORWARD);
         validateButton.setOnAction(e -> validateFields());
 
         //update current item and switchflage to "approve" or "toapprove"
         Button submitButton = new Button("Submit for Approval");
-        ButtonBar.setButtonData(submitButton, ButtonData.FINISH);
+        //ButtonBar.setButtonData(submitButton, ButtonData.FINISH);
         submitButton.setOnAction(e -> submitForm());
 
         //Adjusted
         //buttonBar.getButtons().addAll(editButton, saveButton, revalidateButton, submitButton);
-        buttonBar.getButtons().addAll(getFormButton, rejectedButton, validateButton, submitButton);
-        buttonBar.setLayoutX(300);
+        buttonBar.getButtons().addAll(logoutButton, getFormButton, rejectedButton, validateButton, submitButton);
+        buttonBar.setLayoutX(200);
         buttonBar.setLayoutY(530);
 
         //form data fields
