@@ -17,12 +17,13 @@ public class NewDataForm extends Application {
     private Label statusLabel, counterLabel;
     private ComboBox<Integer> formDropdown;
     private Button darkModeButton;
-    private boolean darkMode = false;
+    private boolean darkMode = false; // Start in non-dark mode
     private int currentFormId = -1;
 
     public static void main(String[] args) {
         launch(args);
     }
+
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Petitioner Data Entry Form");
@@ -172,6 +173,8 @@ public class NewDataForm extends Application {
                 statusLabel.setText("Form submitted.");
             } else {
                 SQLProcessor.modifyForm(currentFormId, form);
+                SQLProcessor.modifyPetitioner(pet);
+                SQLProcessor.modifyRelative(rel);
                 statusLabel.setText("Form updated.");
             }
 
@@ -183,12 +186,12 @@ public class NewDataForm extends Application {
 
     private boolean validateFields() {
         return !petFNameField.getText().isEmpty() && !petLNameField.getText().isEmpty() &&
-               !petDobField.getText().isEmpty() && !petANumField.getText().isEmpty() &&
-               !relFNameField.getText().isEmpty() && !relLNameField.getText().isEmpty() &&
-               !relDobField.getText().isEmpty() && !relANumField.getText().isEmpty() &&
-               !appDateField.getText().isEmpty() && !addressField.getText().isEmpty() &&
-               !cityField.getText().isEmpty() && !stateField.getText().isEmpty() &&
-               !zipcodeField.getText().isEmpty();
+                !petDobField.getText().isEmpty() && !petANumField.getText().isEmpty() &&
+                !relFNameField.getText().isEmpty() && !relLNameField.getText().isEmpty() &&
+                !relDobField.getText().isEmpty() && !relANumField.getText().isEmpty() &&
+                !appDateField.getText().isEmpty() && !addressField.getText().isEmpty() &&
+                !cityField.getText().isEmpty() && !stateField.getText().isEmpty() &&
+                !zipcodeField.getText().isEmpty();
     }
 
     private void clearForm() {
@@ -199,7 +202,7 @@ public class NewDataForm extends Application {
         statusLabel.setText("");
     }
 
-    private void toggleDarkMode(VBox root) {
+    private void toggleDarkMode(Pane root) {
         darkMode = !darkMode;
         applyDarkMode(root);
     }
