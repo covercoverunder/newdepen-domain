@@ -119,12 +119,14 @@ public class ApprovalUI extends Application {
             //validateOn.setDisable(true);
             enableEdit();
             validMSG.setText("Validation Mode: [ON]  OFF");
+            showAlert("Validation Mode: ON", "Validation mode has been enabled.");
         });
 
         validateOff.setOnAction(e -> {
             //validateOff.setDisable(true);
             disableEdit();
             validMSG.setText("Validation Mode:  ON  [OFF]");
+            showAlert("Validation Mode: OFF", "Validation mode has been disabled.");
         });
 
         leftPanel.getChildren().addAll(getForm, clearEntries, formID, formID_text, fName, fName_text, lName, 
