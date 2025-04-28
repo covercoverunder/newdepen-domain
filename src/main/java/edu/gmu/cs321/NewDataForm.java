@@ -17,7 +17,7 @@ public class NewDataForm extends Application {
     private Label statusLabel, counterLabel;
     private ComboBox<Integer> formDropdown;
     private Button darkModeButton;
-    private boolean darkMode = true;
+    private boolean darkMode = false;
     private int currentFormId = -1;
 
     public static void main(String[] args) {
