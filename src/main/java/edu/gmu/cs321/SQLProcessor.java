@@ -313,6 +313,35 @@ public class SQLProcessor {
                 return null;
             }
     }
+    public static void modifyPetitioner(Petitioner petitioner) {
+        String updateQuery = "UPDATE Petitioner SET first = ?, last = ?, dob = ? WHERE aNum = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(updateQuery)) {
+            stmt.setString(1, petitioner.getFirstName());
+            stmt.setString(2, petitioner.getLastName());
+            stmt.setInt(3, petitioner.getDOB());
+            stmt.setInt(4, petitioner.getANum());
+            stmt.executeUpdate();
+            System.out.println("Petitioner updated.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void modifyRelative(Relative relative) {
+        String updateQuery = "UPDATE Relative SET first = ?, last = ?, dob = ? WHERE aNumRel = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(updateQuery)) {
+            stmt.setString(1, relative.getFirstName());
+            stmt.setString(2, relative.getLastName());
+            stmt.setInt(3, relative.getDOB());
+            stmt.setInt(4, relative.getANumRel());
+            stmt.executeUpdate();
+            System.out.println("Relative updated.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     // return list of forms with matching status as strings
     public static String strAvailForms(String status) {
