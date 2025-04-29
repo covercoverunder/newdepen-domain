@@ -314,6 +314,45 @@ public class SQLProcessor {
             }
     }
 
+    // return list of forms with matching status as strings
+    public static String strAvailForms(String status) {
+        String selectQuery = "SELECT id, aNumPet, aNumRel FROM Form WHERE status = ?";
+        StringBuilder result = new StringBuilder();
+        boolean found = false;
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(selectQuery)) {
+            // exec query
+            stmt.setString(1, status);
+            ResultSet rs = stmt.executeQuery();
+    
+            while (rs.next()) {
+                found = true;
+                int id = rs.getInt("id");
+                int aNumPet = rs.getInt("aNumPet");
+                int aNumRel = rs.getInt("aNumRel");
+                // fetch rel and pets
+                Petitioner pet = retrievePetitioner(aNumPet);
+                Relative rel = retrieveRelative(aNumRel);
+                // accumulate list of forms using id, rel names, and pet names.
+                if (pet != null && rel != null) {
+                    result.append("[ID: ").append(id)
+                          .append("] --- Petitioner Name: ").append(pet.getFirstName()).append(" ").append(pet.getLastName())
+                          .append("--- Relative Name: ").append(rel.getFirstName()).append(" ").append(rel.getLastName())
+                          .append("\n");
+                }
+            }
+        // prompt users if nothing is found
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "No Forms Found.";
+        }
+        if (!found) {
+            return "No Forms Found.";
+        }
+        // cut newline
+        return result.toString().trim(); 
+    }
+
     /* 
     public static void main(String[] args) {
         // Example objects from PetitionerFill
