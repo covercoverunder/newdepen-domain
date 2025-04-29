@@ -14,17 +14,65 @@ import javafx.stage.Stage;
 public class ApprovalUI extends Application {
 
     /**
-     * Textbox for reason of rejection,
-     */
-    private TextArea reasonArea;
-    /**
      * Button for rejection.
      */
-    private Button rejectButton;
+    private Button rejectButton = new Button("Reject Form");
+
     /**
      * Button for approval.
      */
-    private Button approveButton;
+    private Button approveButton = new Button("Approve Form");
+
+    /**
+     * Button to close approver ui.
+     */
+    private Button signOutButton = new Button("Sign Out");
+
+    /**
+     * button to retrieve available form for approval
+     */
+    private Button getForm = new Button("Get Available Form");
+
+    /**
+     * Button to clear fields.
+     */
+    private Button clearEntries = new Button("Clear Entries");
+
+    /**
+     * Button for validation.
+     */
+    private Button validate = new Button ("Validator Switch");
+
+    /**
+     * Button to check list of forms available.
+     */
+    private Button listOfForms = new Button ("Check Queue");
+
+    /**
+     * Button to locate specified form.
+     */
+    private Button retrieveForm = new Button ("Retrieve");
+
+    /**
+     * Tracks if validation mode is on/off
+     */
+    private boolean isValidate = false;
+
+    /**
+     * Tells approver if validator is on.
+     */
+    private TextArea validMSG = new TextArea("Validator:  ON  [OFF]");
+
+    /**
+     * Textbox for reason of rejection,
+     */
+    private TextArea reasonArea = new TextArea();
+
+    /**
+     * Text area to enter specified form.
+     */
+    private TextArea searchForm = new TextArea();
+
     /**
      * Form object
      */
@@ -33,11 +81,6 @@ public class ApprovalUI extends Application {
      * Holds form id for MySQL table
      */
     private int formID;
-    /**
-     * Tracks if validation mode is on/off
-     */
-    private boolean isValidate = false;
-
 
     // vars to display form information
     private TextArea formID_text = new TextArea();
@@ -85,10 +128,9 @@ public class ApprovalUI extends Application {
         VBox leftPanel = new VBox(10);
         // spacing for center region
         leftPanel.setPadding(new Insets(10));
-        // button to retrieve available form for approval
-        Button getForm = new Button("Get Available Form");
-        Button clearEntries = new Button("Clear Entries");
         // display form information header
+        Label quickStartLabel = new Label("[Quick Start]");
+        Label formDetails = new Label("[Applicant Details]");
         Label formID = new Label("Form ID: ");
         Label fName = new Label("First Name: ");
         Label lName = new Label("Last Name: ");
@@ -96,47 +138,62 @@ public class ApprovalUI extends Application {
         Label aNum = new Label("Alien Number: ");
         Label address = new Label("Address:");
         Label city = new Label("City:");
-        Label state = new Label("Staete:");
+        Label state = new Label("State:");
         Label zipcode = new Label("Zipcode:");
         Label petitionFName = new Label("Petitioner First Name: ");
         Label petitionLName = new Label("Petitioner Last Name: ");
         Label petitionDOB = new Label("Petitioner's Date of Birth");
         Label petitionANum = new Label("Petitioner Alien Number:");
+
+
         // set get form button config
         getForm.setOnAction(e -> {
             // attempt to assign values to attributes
             findAvailableForm();
         });
+
+
         clearEntries.setOnAction(e -> {
             // clear text fields
             clearEntries();
         });
-        Button validateOn = new Button ("Enable Validation");
-        Button validateOff = new Button ("Disable Validation");
-        TextArea validMSG = new TextArea("Validation Mode:  ON  [OFF]");
 
-        validateOn.setOnAction(e -> {
-            //validateOn.setDisable(true);
-            enableEdit();
-            validMSG.setText("Validation Mode: [ON]  OFF");
-            showAlert("Validation Mode: ON", "Validation mode has been enabled.");
+        signOutButton.setOnAction(e -> {
+            primaryStage.close();
+            new LoginScreen().start(new Stage());
         });
 
-        validateOff.setOnAction(e -> {
-            //validateOff.setDisable(true);
-            disableEdit();
-            validMSG.setText("Validation Mode:  ON  [OFF]");
-            showAlert("Validation Mode: OFF", "Validation mode has been disabled.");
-        });
+        validMSG.setPrefRowCount(1);
+        validMSG.setPrefColumnCount(10);
+        validMSG.setMinHeight(25);
+        validMSG.setMaxHeight(25);
+        validMSG.setEditable(false);
 
-        leftPanel.getChildren().addAll(getForm, clearEntries, formID, formID_text, fName, fName_text, lName, 
+        GridPane generalSet = new GridPane();
+        generalSet.add(getForm,  0, 0);
+        generalSet.add(clearEntries, 1, 0);
+        generalSet.add(signOutButton, 3, 0);
+        generalSet.setHgap(5);
+
+        leftPanel.getChildren().addAll(quickStartLabel, generalSet, formDetails, formID, formID_text, fName, fName_text, lName, 
                                        lName_text, dob, dob_text, aNum, aNum_text, address, address_text, 
-                                       city, city_text, state, state_text, zipcode, zipcode_text, validateOn, validateOff, validMSG);
+                                       city, city_text, state, state_text, zipcode, zipcode_text);
         // right panel
         VBox rightPanel = new VBox(10);
         // spacing for right panel
         rightPanel.setPadding(new Insets(10));
         // button to check if current petitioner already exit
+
+
+        listOfForms.setOnAction(e -> {
+            showAlert("List of Forms", SQLProcessor.strAvailForms("toApprove"));
+        });
+
+
+        retrieveForm.setOnAction(e -> {
+            setForm(Integer.valueOf(searchForm.getText()));
+        });
+
         Button duplicate = new Button("Check if Duplicate");
         // config if dup button is pressed
         duplicate.setOnAction(e -> {
@@ -147,16 +204,15 @@ public class ApprovalUI extends Application {
                 showAlert("Duplicate Finder", "No Duplicates Found.");
             }
         });
+
         // label to seperate control panel
-        Label controlP = new Label("*********************************** Approval Control Panel ***********************************");
-        // button to approve document
-        approveButton = new Button("Approve Form");
-        // button to reject document
-        rejectButton = new Button("Reject Form");
+        Label manualSearchLabel = new Label("[Manual Search]");
+        Label petDetailsLabel = new Label("[Petitioner Details]");
+        Label validatorLabel = new Label("[Validator]");
+        Label controlPanelLabel = new Label("[Control Panel]");
+
         // disable rejection button by default
         rejectButton.setDisable(true);
-        // area to type in rejection reason
-        reasonArea = new TextArea();
         // prompt approver to enter reasoning here
         reasonArea.setPromptText("Enter reasoning for rejection...");
         reasonArea.setWrapText(true);
@@ -164,6 +220,7 @@ public class ApprovalUI extends Application {
         reasonArea.textProperty().addListener((obs, oldText, newText) -> {
             rejectButton.setDisable(newText.trim().length() < 10);
         });
+
         // if approve button is activated, prompt alert box
         approveButton.setOnAction(e -> {
             // confirm if approver wants to approve form (y/n alert box)
@@ -178,6 +235,7 @@ public class ApprovalUI extends Application {
                 }
             });
         });
+
         rejectButton.setOnAction(e -> {
                 // confirm if approver wants to approve form (y/n alert box)
                 Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Do you confirm rejection of the following form?\n\n", ButtonType.YES, ButtonType.NO);
@@ -191,22 +249,55 @@ public class ApprovalUI extends Application {
                     }
                 });
         });
-        Button signOutButton = new Button("Sign Out");
-        signOutButton.setOnAction(e -> {
-            primaryStage.close();
-            new LoginScreen().start(new Stage());
+
+
+        searchForm.setPrefRowCount(1);
+        searchForm.setPrefColumnCount(10);
+        searchForm.setMinHeight(25);
+        searchForm.setMaxHeight(25);
+        searchForm.setEditable(true);
+
+        GridPane locator = new GridPane();
+        locator.add(listOfForms, 0, 0);
+        locator.add(searchForm, 1, 0);
+        locator.add(retrieveForm, 3, 0);
+        locator.setHgap(5);
+
+        GridPane controlPanel = new GridPane();
+        controlPanel.add(duplicate, 0, 0);
+        controlPanel.add(rejectButton, 1, 0);
+        controlPanel.add(approveButton, 3, 0);
+        controlPanel.setHgap(5);
+
+        validate.setOnAction(e -> {
+            //validateOn.setDisable(true);
+            if(isValidate) {
+                disableEdit();
+                validMSG.setText("Validator:  ON  [OFF]");
+                isValidate = false;
+            } else {
+                enableEdit();
+                validMSG.setText("Validator: [ON]  OFF ");
+                isValidate = true;
+            }
         });
+
+        GridPane validationSet = new GridPane();
+        validationSet.add(validate, 1, 0);
+        validationSet.add(validMSG, 3, 0);
+        validationSet.setHgap(5);
+
         // add buttons and text box to right region
-        rightPanel.getChildren().addAll(petitionFName, petitionFName_text, petitionLName, petitionLName_text, 
-                                        petitionDOB, petitionDOB_text, petitionANum, petitionANum_text, duplicate,
-                                        controlP, approveButton, rejectButton, reasonArea, signOutButton);
+        rightPanel.getChildren().addAll(manualSearchLabel, locator, petDetailsLabel, petitionFName, petitionFName_text, petitionLName, petitionLName_text, 
+                                        petitionDOB, petitionDOB_text, petitionANum, petitionANum_text,
+                                        validatorLabel, validationSet, controlPanelLabel, controlPanel, reasonArea);
         // assign regions to root
         BorderPane layout = new BorderPane();
         layout.setLeft(leftPanel);
         // layout.setCenter(leftPanel);
         layout.setRight(rightPanel);
         // set dimensions
-        Scene scene = new Scene(layout, 1000, 800);
+        Scene scene = new Scene(layout, 900, 800);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -220,6 +311,10 @@ public class ApprovalUI extends Application {
     private void showAlert(String title, String alert) {
         // create object for alert box
         Alert alertBox = new Alert(Alert.AlertType.INFORMATION);
+        // custom dimension with form list
+        if(title.equals("List of Forms")) {
+            alertBox.getDialogPane().setPrefSize(800, 400);
+        }
         // assign title to alert box
         alertBox.setTitle(title);
         alertBox.setHeaderText(null);
@@ -228,13 +323,8 @@ public class ApprovalUI extends Application {
         alertBox.showAndWait();
     }
 
-    private void findAvailableForm() {
-        // var to store form id
-        formID = SQLProcessor.availableForm("toApprove");
-        // exit if not available
-        if(formID == -1) {
-            return;
-        }
+    private void setForm(int id) {
+        formID = id;
         // get form
         form = SQLProcessor.retrieveForm(formID);
         // get petitioner
@@ -255,6 +345,17 @@ public class ApprovalUI extends Application {
         petitionLName_text.setText(String.valueOf(pet.getLastName()));
         petitionDOB_text.setText(String.valueOf(pet.getDOB()));
         petitionANum_text.setText(String.valueOf(pet.getANum()));
+    }
+
+    private void findAvailableForm() {
+        // var to store form id
+        formID = SQLProcessor.availableForm("toApprove");
+        // exit if not available
+        if(formID == -1) {
+            return;
+        }
+        // get form
+        setForm(formID);
     }
 
     private void rejectForm() {
@@ -291,6 +392,7 @@ public class ApprovalUI extends Application {
             ta.setEditable(true);
         }
      }
+
      private void disableEdit() {
         TextArea[] textAreas = { formID_text, fName_text, lName_text, dob_text, aNum_text, 
             address_text, city_text, state_text, zipcode_text,
