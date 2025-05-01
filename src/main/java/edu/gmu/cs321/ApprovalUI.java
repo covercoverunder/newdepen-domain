@@ -1,6 +1,6 @@
-// packages
+// packages required
 package edu.gmu.cs321;
-// additional libs
+// java fx objects and additional tools
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
