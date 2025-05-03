@@ -153,12 +153,13 @@ public class ApprovalUI extends Application {
             findAvailableForm();
         });
 
-
+        // config for clear entries button
         clearEntries.setOnAction(e -> {
             // clear text fields
             clearEntries();
         });
 
+        // config for sign out button
         signOutButton.setOnAction(e -> {
             primaryStage.close();
             new LoginScreen().start(new Stage());
@@ -170,6 +171,7 @@ public class ApprovalUI extends Application {
         validMSG.setMaxHeight(25);
         validMSG.setEditable(false);
 
+        // area for specific buttons together
         GridPane generalSet = new GridPane();
         generalSet.add(getForm,  0, 0);
         generalSet.add(clearEntries, 1, 0);
