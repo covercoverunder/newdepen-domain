@@ -50,12 +50,18 @@ public class NewDataForm extends Application {
         Button submitButton = new Button("Submit/Update Form");
         submitButton.setOnAction(e -> handleSubmit());
 
+        Button signOutButton = new Button("Sign Out");
+        signOutButton.setOnAction(e -> {
+            primaryStage.close();
+            new LoginScreen().start(new Stage());
+        });
+
         Button clearButton = new Button("Clear Fields");
         clearButton.setOnAction(e -> clearForm());
 
         statusLabel = new Label("");
 
-        HBox buttonRow = new HBox(10, submitButton, clearButton);
+        HBox buttonRow = new HBox(10, submitButton, clearButton, signOutButton);
         buttonRow.setAlignment(Pos.CENTER);
 
         root.getChildren().addAll(topRow, grid, buttonRow, statusLabel);
